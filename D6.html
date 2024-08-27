@@ -99,9 +99,9 @@
 
       const changePcontent = function () {
         const paragrafi = document.querySelectorAll("div>p");
-        for (let i = 0; i < paragrafi.length; i++) {
-          paragrafi[i].innerText = "Ho modificato il testo dei paragrafi";
-        }
+        paragrafi.forEach((paragrafo) => {
+          paragrafo.innerText = "Ho modificato il testo dei paragrafi";
+        });
       };
       changePcontent();
       /* ESERCIZIO 4
@@ -109,9 +109,11 @@
      */
 
       const changeUrls = function () {
-        const linkmain = document.querySelector("div a");
-        linkmain.innerText = "questo link porta alla home di google";
-        linkmain.href = "https://www.google.com";
+        const linkmain = document.querySelectorAll("a:not(footer a)");
+        linkmain.forEach((link) => {
+          link.innerText = "questo link porta a google";
+          link.href = "https://www.google.com";
+        });
       };
       changeUrls();
       /* ESERCIZIO 5
@@ -120,17 +122,10 @@
 
       const addToTheSecond = function () {
         const secondaLista = document.getElementById("secondList");
-        const newList = document.createElement("ul");
+
         const listItems1 = document.createElement("li");
-        newList.appendChild(listItems1);
-        listItems1.innerText = "li1";
-        const listItems2 = document.createElement("li");
-        newList.appendChild(listItems2);
-        listItems2.innerText = "li2";
-        const listItems3 = document.createElement("li");
-        newList.appendChild(listItems3);
-        listItems3.innerText = "li3";
-        secondaLista.appendChild(newList);
+        listItems1.innerText = "Nuovo elemento lista";
+        secondaLista.appendChild(listItems1);
       };
       addToTheSecond();
       /* ESERCIZIO 6
@@ -158,10 +153,10 @@
      */
 
       const paintItGreen = function () {
-        const backgroundColorList = document.querySelectorAll("ul");
-        for (let i = 0; i < backgroundColorList.length; i++) {
-          backgroundColorList[i].style.backgroundColor = "green";
-        }
+        const liste = document.querySelectorAll("ul");
+        liste.forEach((lista) => {
+          lista.style.backgroundColor = "green";
+        });
       };
       paintItGreen();
       /* ESERCIZIO 9
@@ -169,7 +164,12 @@
      */
 
       const makeItClickable = function () {
-        let titolo = document.querySelector("h1");
+        const caratteri = Array.from(document.querySelector("h1").innerText);
+        const pageTitle = document.querySelector("h1");
+        pageTitle.onclick = () => {
+          caratteri.pop();
+          pageTitle.innerText = caratteri.join("");
+        };
       };
       makeItClickable();
       /* ESERCIZIO 10
@@ -187,11 +187,7 @@
       /* ESERCIZIO 11
       Crea una funzione che crei una tabella nell'elemento con id "tableArea". 
       La tabella avrà 5 elementi e questa struttura: immagine, nome prodotto, quantità, prezzo
-   */
-
-      const generateTable = function () {
-        const areaTabella = document.getElementById("tableArea");
-        const table = document.createElement("table");
+   const table = document.createElement("table");
         const thead = document.createElement("thead");
         const tr1 = document.createElement("tr");
         const th1Img = document.createElement("th");
@@ -222,8 +218,86 @@
         const tdPrimoPrezzo = document.createElement("td");
         tdPrimoPrezzo.innerText = "1000000";
         tr2.appendChild(tdPrimoPrezzo);
-        tbody.appendChild(tr2);
-        table.appendChild(tbody);
+        tbody.appendChild(tr2);*/
+
+      const generateTable = function () {
+        const areaTabella = document.getElementById("tableArea");
+        const dettagliTable = ["immagine", "nome prodotto", "quantità", "prezzo"];
+        const table = document.createElement("table");
+        const elementoThead = document.createElement("thead");
+        const elementoTr = document.createElement("tr");
+        dettagliTable.forEach((dettaglio) => {
+          const elementoTh = document.createElement("th");
+          elementoTh.innerText = dettaglio;
+          elementoTr.appendChild(elementoTh);
+        });
+        elementoThead.appendChild(elementoTr);
+        table.appendChild(elementoThead);
+        areaTabella.appendChild(table);
+        let cataloghi = [
+          {
+            immagine: "img",
+            nome: "F40",
+            prodotto: "Auto",
+            quantità: 1,
+            prezzo: 10000000,
+          },
+          {
+            immagine: "img",
+            nome: "F40",
+            prodotto: "Auto",
+            quantità: 1,
+            prezzo: 10000000,
+          },
+          {
+            immagine: "img",
+            nome: "F40",
+            prodotto: "Auto",
+            quantità: 1,
+            prezzo: 10000000,
+          },
+          {
+            immagine: "img",
+            nome: "F40",
+            prodotto: "Auto",
+            quantità: 1,
+            prezzo: 10000000,
+          },
+          {
+            immagine: "img",
+            nome: "F40",
+            prodotto: "Auto",
+            quantità: 1,
+            prezzo: 10000000,
+          },
+        ];
+        const elemntoTbody = document.createElement("tbody");
+        table.appendChild(elemntoTbody);
+
+        cataloghi.forEach((catalogo) => {
+          const elementoTr2 = document.createElement("tr");
+          const elementoTdImg = document.createElement("td");
+          elementoTdImg.innerText = catalogo.immagine;
+          elementoTr2.appendChild(elementoTdImg);
+
+          const elementoTdNome = document.createElement("td");
+          elementoTdNome.innerText = catalogo.nome;
+          elementoTr2.appendChild(elementoTdNome);
+
+          const elementoTdProdotto = document.createElement("td");
+          elementoTdProdotto.innerText = catalogo.prodotto;
+          elementoTr2.appendChild(elementoTdProdotto);
+
+          const elementoTdQuantità = document.createElement("td");
+          elementoTdQuantità.innerText = catalogo.quantità;
+          elementoTr2.appendChild(elementoTdQuantità);
+
+          const elementoTdPrezzo = document.createElement("td");
+          elementoTdPrezzo.innerText = catalogo.prezzo;
+          elementoTr2.appendChild(elementoTdPrezzo);
+
+          elemntoTbody.appendChild(elementoTr2);
+        });
       };
       generateTable();
       /* ESERCIZIO 12
@@ -242,7 +316,23 @@
      Crea una funzione che cambi il colore del h2 con id "changeMyColor" con un colore random ad ogni click ricevuto
    */
 
-      const changeColorWithRandom = function () {};
+      const changeColorWithRandom = function () {
+        const sottoTitolo = document.getElementById("changeMyColor");
+        function generaNumeroCasuale(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function generaColoreCasuale() {
+          let rosso = generaNumeroCasuale(0, 255);
+          let verde = generaNumeroCasuale(0, 255);
+          let blu = generaNumeroCasuale(0, 255);
+          return `rgb(${rosso}, ${verde}, ${blu})`;
+        }
+        sottoTitolo.onclick = () => {
+          const coloreCasuale = generaColoreCasuale();
+          sottoTitolo.style.color = coloreCasuale;
+        };
+      };
+      changeColorWithRandom();
     </script>
   </body>
 </html>
